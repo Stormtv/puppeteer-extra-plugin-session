@@ -44,11 +44,11 @@ Then, you'll have access to session data helpers:
 
 ```ts
 const securityOrigin = "https://github.com"; // security origin of the target IndexedDB
-const sessionData = await page.session.dump(); // or page.session.dumpString()
+const sessionData = await page.sessionManager.dump(); // or page.sessionManager.dumpString()
 
 // [...]
 
-await page.session.restore(sessionData); // or page.session.restoreString(sessionData)
+await page.sessionManager.restore(sessionData); // or page.sessionManager.restoreString(sessionData)
 ```
 
 ## Testing

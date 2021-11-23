@@ -3,25 +3,25 @@ import { CDPIndexedDBDatabaseNames } from "../../schemas";
 
 // TODO: change this to an appropriate name
 export async function getDatabaseNames(page: Page, securityOrigin: string) {
-  const session = await page.target().createCDPSession();
+  const client = await page.target().createCDPSession();
 
   let dbNames: string[];
   try {
     const resp = CDPIndexedDBDatabaseNames.parse(
-      await session.send("IndexedDB.requestDatabaseNames", {
+      await client.send("IndexedDB.requestDatabaseNames", {
         securityOrigin,
       })
     );
     dbNames = resp.databaseNames;
   } catch (err) {
-    if (err.message.includes("No document for given frame found")) {
+    if (err instanceof Error && err.message.includes("No document for given frame found")) {
       dbNames = [];
     } else {
       throw err;
     }
   }
 
-  await session.detach();
+  await client.detach();
 
   return dbNames;
 }

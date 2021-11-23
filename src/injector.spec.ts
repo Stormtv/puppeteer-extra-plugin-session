@@ -1,11 +1,11 @@
-import { Browser, launch, Page } from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
 import { inject } from "./injector";
 import { SessionManager } from "./manager";
 
 let browser: Browser;
 let page: Page;
 beforeAll(async () => {
-  browser = await launch({
+  browser = await puppeteer.launch({
     headless: true,
   });
   page = await browser.newPage();
@@ -17,5 +17,5 @@ afterAll(async () => {
 
 it("can inject the SessionManager", async () => {
   const injected = inject(page);
-  expect(injected.session).toBeInstanceOf(SessionManager);
+  expect(injected.sessionManager).toBeInstanceOf(SessionManager);
 });

@@ -21,12 +21,12 @@ afterAll(async () => {
 
 afterEach(async () => {
   // delete the "foo" cookie after each tests
-  const session = await page.target().createCDPSession();
-  await session.send("Network.deleteCookies", {
+  const client = await page.target().createCDPSession();
+  await client.send("Network.deleteCookies", {
     name: "foo",
     domain: "httpbin.org",
   });
-  await session.detach();
+  await client.detach();
 });
 
 it("can get cookies", async () => {
@@ -43,7 +43,7 @@ it("can get cookies", async () => {
     setCookie("foo", "bar");
   });
 
-  const session = await page.session.dump("_");
+  const session = await page.sessionManager.dump("_");
 
   // the cookie exists and was obtained
   expect(session.cookies.some((cookie) => cookie.name === "foo")).toBe(true);
@@ -69,7 +69,7 @@ it("can edit and overwrite cookies", async () => {
     setCookie("foo", "bar");
   });
 
-  const initialSession = await page.session.dump("_");
+  const initialSession = await page.sessionManager.dump("_");
 
   // edit cookies
   initialSession.cookies = initialSession.cookies.map((cookie) => {
@@ -78,9 +78,9 @@ it("can edit and overwrite cookies", async () => {
     return cookie;
   });
 
-  await page.session.restore(initialSession);
+  await page.sessionManager.restore(initialSession);
 
-  const restoredSession = await page.session.dump("_");
+  const restoredSession = await page.sessionManager.dump("_");
 
   // the cookie exists again
   expect(restoredSession.cookies.some(

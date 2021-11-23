@@ -26,7 +26,7 @@ afterAll(async () => {
 });
 
 it("can get localdb", async () => {
-  const session = await page.session.dump("https://twitter.com");
+  const session = await page.sessionManager.dump("https://twitter.com");
 
   // the db exist and was obtained
   expect(session.indexedDBDatabases).toHaveLength(1);
@@ -36,7 +36,7 @@ it("can get localdb", async () => {
 });
 
 it("can set indexDB", async () => {
-  const session = await page.session.dump("https://twitter.com");
+  const session = await page.sessionManager.dump("https://twitter.com");
   expect(
     session.indexedDBDatabases.some((db) => db.name === "localforage")
   ).toBe(true);
@@ -50,16 +50,16 @@ it("can set indexDB", async () => {
   await client.detach();
 
   // Dump the session again to make sure there is no localforage
-  const emptySession = await page.session.dump("https://twitter.com");
+  const emptySession = await page.sessionManager.dump("https://twitter.com");
   expect(
     emptySession.indexedDBDatabases.some((db) => db.name === "localforage")
   ).toBe(false);
 
   // Restore the indexedDB
-  await page.session.restore(session);
+  await page.sessionManager.restore(session);
 
   // Check to make sure the db was restored
-  const finalSession = await page.session.dump("https://twitter.com");
+  const finalSession = await page.sessionManager.dump("https://twitter.com");
   expect(
     finalSession.indexedDBDatabases.some((db) => db.name === "localforage")
   ).toBe(true);

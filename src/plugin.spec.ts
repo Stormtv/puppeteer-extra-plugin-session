@@ -13,7 +13,7 @@ it("injects the session manager when a page is created", async () => {
       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   });
   const page = await browser.newPage();
-  expect(page).toHaveProperty("session");
-  expect(page.session).toBeInstanceOf(SessionManager);
+  expect(page).toHaveProperty("sessionManager");
+  expect(page.sessionManager).toBeInstanceOf(SessionManager);
   await browser.close();
 });

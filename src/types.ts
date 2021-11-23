@@ -15,7 +15,7 @@ export type SessionData = z.infer<typeof SessionDataSchema>;
  */
 
 export type SessionPluginPageAdditions = {
-  session: SessionManager;
+  sessionManager: SessionManager;
 };
 
 declare module "puppeteer" {

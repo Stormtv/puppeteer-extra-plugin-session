@@ -2,7 +2,7 @@ import { Page as VanillaPage } from "puppeteer";
 import { SessionManager } from "./manager";
 
 export interface SessionPage extends VanillaPage {
-  readonly session: SessionManager;
+  readonly sessionManager: SessionManager;
 }
 
 /**
@@ -10,7 +10,7 @@ export interface SessionPage extends VanillaPage {
  * Makes self available on the `session` property.
  */
 export function inject(page: VanillaPage): SessionPage {
-  return Object.defineProperty(page, "session", {
+  return Object.defineProperty(page, "sessionManager", {
     value: new SessionManager(page),
     writable: false,
   });
