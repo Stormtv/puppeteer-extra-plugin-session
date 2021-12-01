@@ -38,9 +38,9 @@ export const CDPCookieSchema = z.object({
   session: z.boolean(),
   sameSite: CDPSameSite.optional(),
   priority: CDPCookiePriority,
-  sameParty: z.boolean(),
-  sourceScheme: CDPSourceScheme,
-  sourcePort: z.number(),
+  sameParty: z.boolean().optional(),
+  sourceScheme: CDPSourceScheme.optional(),
+  sourcePort: z.number().optional(),
 });
 export type CDPCookie = z.infer<typeof CDPCookieSchema>;
 
